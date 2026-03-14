@@ -1,0 +1,7 @@
+lib
+venv
+__pycache__
+/__pycache__
+uploads
+chunk_uploads
+chroma_store
