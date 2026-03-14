@@ -42,9 +42,9 @@ TEMP_UPLOAD_FOLDER = os.getenv("TEMP_UPLOAD_FOLDER", "uploads")
 # }
 # ============ MySQL Configuration(vps server) ============
 MYSQL_CONFIG = {
-    "host": os.getenv("MYSQL_HOST", "72.61.226.68"),
+    "host": os.getenv("MYSQL_HOST", "157.173.221.226"),
     "port": int(os.getenv("MYSQL_PORT", "3306")),
-    "user": os.getenv("MYSQL_USER", "aiinhome"),
+    "user": os.getenv("MYSQL_USER", "aiinhome_2"),
     "password": os.getenv("MYSQL_PASSWORD", "Aiin@2026"),
     "database": os.getenv("MYSQL_DATABASE", "TraverseAi_dis")
 }
