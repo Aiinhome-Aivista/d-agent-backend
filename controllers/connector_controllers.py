@@ -1088,7 +1088,12 @@ def create_connector_controllers(get_db_connection):
         cursor = db_conn.cursor(dictionary=True)
         
         # Check if the workspace (session_id) actually exists for this user
-        cursor.execute("SELECT session_id FROM workspaces WHERE session_id = %s AND user_id = %s", (user_session_id, user_id))
+        cursor.execute("""
+        SELECT w.session_id
+        FROM workspaces w
+        JOIN workspace_users wu ON wu.workspace_id = w.id
+        WHERE w.session_id = %s AND wu.user_id = %s
+        """, (user_session_id, user_id))
         workspace_exists = cursor.fetchone()
         
         if not workspace_exists:
