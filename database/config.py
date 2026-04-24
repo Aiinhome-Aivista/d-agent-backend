@@ -66,9 +66,9 @@ MAX_SAMPLE_VALUES = int(os.getenv("MAX_SAMPLE_VALUES", "100"))
 
 
 
-ARANGO_HOST = os.getenv("ARANGO_HOST", "https://e3850a1afb88.arangodb.cloud:8529")
+ARANGO_HOST = os.getenv("ARANGO_HOST", "http://157.173.221.226:8529")
 ARANGO_USER = os.getenv("ARANGO_USER", "root")
-ARANGO_PASS = os.getenv("ARANGO_PASS", "RYQdGYKJavDIheMjmbUK")
+ARANGO_PASS = os.getenv("ARANGO_PASS", "Aiinhome@2026")
 ARANGO_DB = os.getenv("ARANGO_DB", "graph_ai")
 
 
