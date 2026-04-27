@@ -86,7 +86,7 @@ def sync_csv_to_user_db(user_id, connection_id, session_id):
 
 
 
-            df = pd.read_csv(file_path)
+            df = pd.read_csv(file_path, encoding="utf-8-sig")
 
             if df.empty:
                 print("CSV file empty:", file)
