@@ -92,7 +92,14 @@ def sync_csv_to_user_db(user_id, connection_id, session_id):
                 print("CSV file empty:", file)
                 continue
 
-            df.columns = df.columns.str.strip().str.replace(" ", "_")
+            df.columns = (
+                df.columns
+                .str.replace(r'^\ufeff', '', regex=True)  # remove BOM
+                .str.strip()
+                .str.replace(" ", "_")
+                .str.replace(r'^_+', '', regex=True)      # remove leading _
+                .str.lower()
+            )
 
             table_name = file.replace(".csv", "").lower()
 
