@@ -75,7 +75,12 @@ def login():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    query = "SELECT id, email, name, new_user_db FROM users WHERE email=%s AND password=%s"
+    query = """
+    SELECT u.id, u.email, u.name, u.role_id, u.new_user_db, r.role_name
+    FROM users u
+    LEFT JOIN roles r ON u.role_id = r.id
+    WHERE u.email=%s AND u.password=%s
+    """
     cursor.execute(query, (email, password))
     user = cursor.fetchone()
 
@@ -90,6 +95,8 @@ def login():
     user_id = user["id"]
     email = user["email"]
     user_name = user["name"]
+    role_id = user["role_id"]
+    role_name = user["role_name"]
     # check existing db
     check_query = "SELECT new_user_db FROM users WHERE id=%s"
     cursor.execute(check_query, (user_id,))
@@ -105,7 +112,9 @@ def login():
             "data": {
                 "user_id": user_id,
                 "user_database": existing_db["new_user_db"],
-                 "name": user_name
+                "role_id": role_id,
+                "role_name": role_name,
+                "name": user_name
             },
             "msg": "User database already exists"
         }), 200

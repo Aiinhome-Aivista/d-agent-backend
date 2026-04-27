@@ -254,7 +254,7 @@ def upload_chunk_controller(get_db_connection):
             INSERT INTO connection_history
             (user_id, session_id, connection_name, db_type, target_host, status)
             VALUES (%s, %s, %s, 'csv_chunk_upload', %s, 'Success')
-        """, (user_id, session_id, history_name, "157.173.221.226"))
+        """, (user_id, session_id, history_name, "72.61.226.68"))
 
         cred_json = json.dumps({"files":[filename]})
 
@@ -272,7 +272,7 @@ def upload_chunk_controller(get_db_connection):
 
         scheduler.add_job(
             func=process_csv_job,
-            args=[[merged_path], allocated_db_name, "157.173.221.226", "aiinhome_2", "Aiin@2026", 3306],
+            args=[[merged_path], allocated_db_name, "72.61.226.68", "aiinhome", "Aiin@2026", 3306],
             trigger='date',
             id=str(uuid.uuid4()),
             replace_existing=True
@@ -334,9 +334,9 @@ def upload_csv_controller(get_db_connection):
         allocated_db_name = user_data["new_user_db"]
 
         # DB server credentials
-        db_user = "aiinhome_2"
+        db_user = "aiinhome"
         db_pass = "Aiin@2026"
-        db_host = "157.173.221.226"
+        db_host = "72.61.226.68"
         db_port = 3306
 
         # Save uploaded files
