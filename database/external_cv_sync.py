@@ -86,20 +86,13 @@ def sync_csv_to_user_db(user_id, connection_id, session_id):
 
 
 
-            df = pd.read_csv(file_path, encoding="utf-8-sig")
+            df = pd.read_csv(file_path)
 
             if df.empty:
                 print("CSV file empty:", file)
                 continue
 
-            df.columns = (
-                df.columns
-                .str.replace(r'^\ufeff', '', regex=True)  # remove BOM
-                .str.strip()
-                .str.replace(" ", "_")
-                .str.replace(r'^_+', '', regex=True)      # remove leading _
-                .str.lower()
-            )
+            df.columns = df.columns.str.strip().str.replace(" ", "_")
 
             table_name = file.replace(".csv", "").lower()
 

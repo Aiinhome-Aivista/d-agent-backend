@@ -1,5 +1,5 @@
 from arango import ArangoClient
-from arango.exceptions import CollectionCreateError
+# Import configurations directly from your config file
 from database.config import ARANGO_HOST, ARANGO_USER, ARANGO_PASS, ARANGO_DB
 
 class DatabaseService:
@@ -25,22 +25,18 @@ class DatabaseService:
         if not self.sys_db.has_database(self.db_name):
             self.sys_db.create_database(self.db_name)
 
-    
     def _setup_collections(self):
+        # Ensure we are working on the correct DB context
         db = self.client.db(self.db_name, username=self.username, password=self.password)
         
         # Document collections
         for coll in ['Books', 'Topics', 'Metadata']:
-            try:
+            if not db.has_collection(coll):
                 db.create_collection(coll)
-            except CollectionCreateError:
-                pass  # already exists → ignore
         
-        # Edge collection
-        try:
+        # Edge collections
+        if not db.has_collection('has_topic'):
             db.create_collection('has_topic', edge=True)
-        except CollectionCreateError:
-            pass
 
     def truncate_collections(self):
         for coll_name in ['Books', 'Topics', 'has_topic', 'Metadata']:

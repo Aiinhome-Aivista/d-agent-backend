@@ -1,13 +1,7 @@
 import json
 import pymysql
 from database.config import MYSQL_CONFIG
-import math
 
-def clean_row(row):
-    return tuple(
-        None if (isinstance(v, float) and math.isnan(v)) else v
-        for v in row
-    )
 
 def sync_external_database(user_id, connection_id, session_id):
 
@@ -231,8 +225,7 @@ def sync_external_database(user_id, connection_id, session_id):
                             VALUES ({placeholders})
                             """
 
-                            cleaned_rows = [clean_row(row) for row in rows]
-                            target_cursor.executemany(insert_query, cleaned_rows)
+                            target_cursor.executemany(insert_query, rows)
                             inserted_count = len(rows)
 
                         #  LOG INSERT
@@ -455,8 +448,7 @@ def apply_external_sync(user_id, connection_id, session_id, table):
                     VALUES ({placeholders})
                     """
 
-                    cleaned_rows = [clean_row(row) for row in rows]
-                    target_cursor.executemany(insert_query, cleaned_rows)
+                    target_cursor.executemany(insert_query, rows)
 
                 return
 
@@ -485,8 +477,7 @@ def apply_external_sync(user_id, connection_id, session_id, table):
                     VALUES ({placeholders})
                     """
 
-                    cleaned_rows = [clean_row(row) for row in rows]
-                    target_cursor.executemany(insert_query, cleaned_rows)
+                    target_cursor.executemany(insert_query, rows)
 
     finally:
         source_conn.close()
@@ -587,8 +578,7 @@ def apply_bulk_external_sync(user_id, connection_id, session_id, tables, action)
                     if rows:
                         placeholders = ", ".join(["%s"] * len(rows[0]))
                         insert_query = f"INSERT INTO `{table}` VALUES ({placeholders})"
-                        cleaned_rows = [clean_row(row) for row in rows]
-                        target_cursor.executemany(insert_query, cleaned_rows)   
+                        target_cursor.executemany(insert_query, rows)
 
                 # ---------------------------------------------------------
                 # LOGIC FOR "Update Existing" (Append / Create New)
@@ -614,8 +604,7 @@ def apply_bulk_external_sync(user_id, connection_id, session_id, tables, action)
                         if rows:
                             placeholders = ", ".join(["%s"] * len(rows[0]))
                             insert_query = f"INSERT INTO `{table}` VALUES ({placeholders})"
-                            cleaned_rows = [clean_row(row) for row in rows]
-                            target_cursor.executemany(insert_query, cleaned_rows)
+                            target_cursor.executemany(insert_query, rows)
                     else:
                         # Table exists, append only new rows
                         source_cursor.execute(f"SELECT COUNT(*) FROM `{original_table}`")
@@ -634,9 +623,7 @@ def apply_bulk_external_sync(user_id, connection_id, session_id, tables, action)
                             if rows:
                                 placeholders = ", ".join(["%s"] * len(rows[0]))
                                 insert_query = f"INSERT INTO `{table}` VALUES ({placeholders})"
-                                cleaned_rows = [clean_row(row) for row in rows]
-                                target_cursor.executemany(insert_query, cleaned_rows)
-                            
+                                target_cursor.executemany(insert_query, rows)
 
     finally:
         source_conn.close()

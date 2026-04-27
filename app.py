@@ -45,9 +45,9 @@ from controllers.saved_content_analysis_controller import (
 from controllers.sheet_scan_controller import sheet_scan_controller
 from controllers.sheet_content_controller import sheet_describe_controller, sheet_chat_controller
 from controllers.connector_controllers import (create_connector_controllers,
-                                               agent_query_controllers, create_user_controller,
+                                               agent_query_controllers,
                                                get_connection_history_controller,
-                                               get_saved_credentials_controller, get_user_workspaces_simple,
+                                               get_saved_credentials_controller,
                                                get_workspace_history_controller,
                                                create_workspace_controller,
                                                 get_user_workspaces_controller, set_active_workspace,
@@ -368,24 +368,13 @@ def get_all_users():
 def assign_workspace_users():
     return assign_workspace_users_controller(get_db_connection)
 
-@app.route('/workspace_users', methods=['POST'])
+@app.route('/workspace_users', methods=['GET'])
 def get_workspace_users():
     return get_workspace_users_controller(get_db_connection)
 
 @app.route('/remove_workspace_user', methods=['DELETE'])
 def remove_workspace_user():
     return remove_workspace_user_controller(get_db_connection)
-
-@app.route("/get-workspace", methods=["GET"])
-def get_user_workspaces_simple_controller():
-    return get_user_workspaces_simple(get_db_connection)
-
-
-@app.route("/create_user", methods=["POST"])
-def create_user():
-    return create_user_controller(get_db_connection)
-
-
 
 @app.route("/session-chat-history", methods=["GET", "POST", "DELETE"])
 def session_chat_history():

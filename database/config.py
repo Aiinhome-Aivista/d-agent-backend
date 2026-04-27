@@ -73,10 +73,3 @@ ARANGO_DB = os.getenv("ARANGO_DB", "graph_ai")
 
 
 
-# Email configuration
-MAIL_SERVER = "smtp.gmail.com"
-MAIL_PORT = 587
-MAIL_USE_TLS = True
-
-MAIL_USERNAME = "saikatofficial19980@gmail.com"
-MAIL_PASSWORD = "gkzlglukauqwflnd"

@@ -205,7 +205,12 @@ def _load_all(session_id, get_fn):
 
 
 def _load_analysis_report(session_id, get_fn):
-
+    """
+    session_analysis_controller এর output load করে:
+    - graph table: session_id = session_id হলে report text + web topics + db table info
+    - saved_web_results: topic + brief (already in _load_web, এখানে richer format)
+    - external_db_sync_log: db names + table metadata (schema level summary)
+    """
     chunks = []
     local = cur = None
     try:
@@ -1188,3 +1193,6 @@ Return ONLY valid JSON (answer must be a plain text string):
         "visualizations": visualizations
     }), 200
 
+
+
+#    https://chatgpt.com/c/69b1006f-d42c-8323-b36b-e1970dd7d818
